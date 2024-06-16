@@ -15,12 +15,18 @@
 	@apply bg-black bg-opacity-15;
 }
 
-* {
-	@apply font-sans bg-neutral-300 transition-colors selection:bg-sky-800 selection:text-neutral-300 dark:bg-neutral-800 dark:selection:bg-sky-900;
+input[type="number"].minimalist::-webkit-inner-spin-button,
+input[type="number"].minimalist::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+  	margin: 0;
+}
+
+body {
+	@apply font-sans h-screen bg-neutral-300 transition-opacity selection:bg-sky-800 selection:text-neutral-300 dark:bg-neutral-800 dark:selection:bg-sky-900;
 }
 
 main {
-	@apply mx-8;
+	@apply px-8;
 }
 
 h1,
@@ -39,7 +45,7 @@ h2 {
 }
 
 p {
-	@apply opacity-75 font-medium text-lg dark:opacity-100 dark:text-neutral-200;
+	@apply opacity-75 font-medium text-lg dark:opacity-100 dark:text-neutral-200 dark:font-normal;
 }
 
 button.primary,

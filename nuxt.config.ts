@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
 	devtools: { enabled: true },
 	css: ["~/assets/css/main.css"],
-	modules: ["@pinia/nuxt", "@nuxt/eslint", "nuxt-icon"],
+	modules: ["@pinia/nuxt", "@nuxt/eslint", "nuxt-icon", "@nuxt/image", "@nuxt/ui"],
 	postcss: {
 		plugins: {
 			tailwindcss: {},
@@ -20,4 +20,7 @@ export default defineNuxtConfig({
 	components: [
 		"~/components",
 	],
+	image: {
+		dir: "assets",
+	},
 })
