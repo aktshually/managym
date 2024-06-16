@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useToggle } from "@vueuse/shared"
 import { useStorage } from "@vueuse/core"
-import { isDark } from "~/hooks/dark"
 
 const toggleDark = useToggle(isDark)
 isDark.value = useStorage("vueuse-color-scheme", "auto").value === "auto"

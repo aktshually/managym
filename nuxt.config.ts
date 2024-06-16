@@ -21,6 +21,6 @@ export default defineNuxtConfig({
 		"~/components",
 	],
 	image: {
-		dir: "assets",
+		dir: "./assets",
 	},
 })
