@@ -1,14 +1,26 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-	content: ["*.vue", "./pages/**/*.vue", "./components/**/*.vue"],
+	content: ["*.{ts,vue}", "./pages/**/*.vue", "./components/**/*.vue", "./app.config.ts"],
 	theme: {
 		extend: {
 			colors: {
-				neutral: {
-					200: "#E2E8CE",
-					300: "#E6E1C5",
-					800: "#262626",
+				diesel: {
 					950: "#120309",
+				},
+				shark: {
+					800: "#454545",
+					950: "#262626",
+				},
+				astral: {
+					500: "#348AAE",
+					600: "#247BA0",
+				},
+				leaf: {
+					100: "#E2E8CE",
+				},
+				brown: {
+					100: "#E6E1C5",
+					200: "#dbd4ac",
 				},
 				sky: {
 					800: "#348AAE",

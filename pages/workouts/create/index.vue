@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useStorage } from "@vueuse/core"
 import type { Exercise } from "~/types/exercise"
-import type { Workout } from "~/types/workout"
+import type { Workout, WorkoutExercise } from "~/types/workout"
 import exercisesData from "~/public/exercises.json"
 
 const workouts = useStorage<Workout[]>("workouts", [])
@@ -55,23 +55,31 @@ const onExerciseButtonClick = (exercise: Exercise) => {
 		}],
 	})
 }
+
+const deleteExercise = (index: number) => () => {
+	workout.value.exercises.splice(index, 1)
+}
+
+const undoExerciseDeletion = (exercise: WorkoutExercise, index: number) => () => {
+	workout.value.exercises.splice(index, 0, exercise)
+}
 </script>
 
 <template>
 	<main class="w-full flex flex-col-reverse gap-4 md:flex-row md:justify-between pb-8">
 		<section
-			class="shadow-md md:w-2/3 border flex flex-col gap-8 border-neutral-950 border-opacity-25 rounded-md p-4 dark:border-neutral-200 dark:border-opacity-25"
+			class="shadow-md md:w-2/3 border flex flex-col gap-8 border-diesel-950 border-opacity-25 rounded-md p-4 dark:border-leaf-100 dark:border-opacity-25"
 			:class="workout.exercises.length === 0 ? 'h-[80vh]' : 'h-fit'"
 		>
 			<div class="flex gap-3 items-center">
 				<Icon
 					name="mingcute:pencil-line"
-					class="text-sky-900 dark:text-sky-900 w-6 h-6"
+					class="text-astral-600 dark:text-astral-600 w-6 h-6"
 				/>
 				<input
 					v-model="createdWorkoutName"
 					type="text"
-					class="bg-transparent outline-none text-ellipsis text-2xl border-b-2 border-b-transparent font-bold focus:border-b-sky-800 dark:focus:border-b-sky-900"
+					class="bg-transparent outline-none text-ellipsis text-2xl border-b-2 border-b-transparent font-bold focus:border-b-astral-500 dark:focus:border-b-astral-600"
 				>
 			</div>
 			<div
@@ -83,18 +91,39 @@ const onExerciseButtonClick = (exercise: Exercise) => {
 				</p>
 			</div>
 			<div
-				v-for="exercise in workout.exercises"
+				v-for="(exercise, index) in workout.exercises"
 				v-else
 				:key="exercise.name as string"
 			>
-				<WorkoutExercise :exercise="exercise" />
+				<WorkoutExercise
+					:exercise="exercise"
+					:remove="deleteExercise(index)"
+					:undo="undoExerciseDeletion(exercise, index)"
+				/>
+			</div>
+			<div
+				v-if="workout.exercises.length > 0"
+				class="flex gap-4 items-end justify-end"
+			>
+				<UButton
+					color="shark"
+					variant="solid"
+				>
+					Create
+				</UButton>
+				<UButton
+					color="shark"
+					variant="outline"
+				>
+					Export
+				</UButton>
 			</div>
 		</section>
-		<section class="flex flex-col gap-3 shadow-md max-h-[80vh] md:w-1/3 border border-neutral-950 border-opacity-25 rounded-md p-4 dark:border-neutral-200 dark:border-opacity-25">
-			<div class="flex gap-2 items-center border border-sky-800 dark:border-sky-900 rounded-md p-2">
+		<section class="flex flex-col gap-8 shadow-md pb-4 h-[80vh] max-h-fit md:w-1/3 border border-diesel-950 border-opacity-25 rounded-md p-4 dark:border-leaf-100 dark:border-opacity-25">
+			<div class="flex gap-2 items-center border border-astral-500 dark:border-astral-600 rounded-md p-2">
 				<Icon
 					name="ion:search-outline"
-					class="text-sky-900 dark:text-sky-900 w-6 h-6"
+					class="text-astral-600 dark:text-astral-600 w-6 h-6"
 				/>
 				<input
 					v-model="searchQuery"
@@ -103,15 +132,16 @@ const onExerciseButtonClick = (exercise: Exercise) => {
 					placeholder="Try writing an exercise"
 				>
 			</div>
-			<div
-				v-for="exercise in selectedExercises"
-				:key="exercise.name as string"
-				class="max-h-[80vh]"
-			>
-				<ExerciseCard
-					:exercise="exercise"
-					:add-to-workout="onExerciseButtonClick"
-				/>
+			<div class="flex gap-4 flex-col">
+				<div
+					v-for="exercise in selectedExercises"
+					:key="exercise.name as string"
+				>
+					<ExerciseCard
+						:exercise="exercise"
+						:add-to-workout="onExerciseButtonClick"
+					/>
+				</div>
 			</div>
 		</section>
 	</main>

@@ -1,9 +1,11 @@
 import type { Exercise } from "./exercise"
 
-type Set = {
+export type SetType = "normal" | "warmup" | "drop" | "failure"
+
+export type Set = {
 	repetitions: number
 	weight?: number
-	type: "normal" | "warmup" | "drop" | "failure"
+	type: SetType
 }
 
 export type WorkoutExercise = Exercise & {

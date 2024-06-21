@@ -3,7 +3,7 @@
 		<div class="flex flex-col gap-5 items-center w-screen h-full justify-center z-10">
 			<div class="text-center">
 				<h1>It always feels good to</h1>
-				<h1 class="bg-clip-text text-transparent bg-gradient-to-r from-sky-800 to-[#39a5d3]">
+				<h1 class="bg-clip-text text-transparent bg-gradient-to-r from-astral-500 to-[#39a5d3]">
 					make progress
 				</h1>
 			</div>

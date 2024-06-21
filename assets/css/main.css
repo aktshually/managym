@@ -22,7 +22,7 @@ input[type="number"].minimalist::-webkit-outer-spin-button {
 }
 
 body {
-	@apply font-sans h-screen bg-neutral-300 transition-opacity selection:bg-sky-800 selection:text-neutral-300 dark:bg-neutral-800 dark:selection:bg-sky-900;
+	@apply font-sans h-screen bg-brown-100 transition-opacity selection:bg-astral-500 selection:text-brown-100 dark:bg-shark-950 dark:selection:bg-astral-600;
 }
 
 main {
@@ -33,7 +33,7 @@ h1,
 h2,
 h3,
 p {
-	@apply text-neutral-950 dark:text-indigo-300;
+	@apply text-diesel-950 dark:text-indigo-300;
 }
 
 h1 {
@@ -45,10 +45,15 @@ h2 {
 }
 
 p {
-	@apply opacity-75 font-medium text-lg dark:opacity-100 dark:text-neutral-200 dark:font-normal;
+	@apply opacity-75 font-medium text-lg dark:opacity-100 dark:text-leaf-100 dark:font-normal;
 }
 
 button.primary,
 a.primary {
-	@apply text-neutral-200 bg-sky-800 rounded-xl px-7 py-4 cursor-pointer dark:bg-sky-900 hover:brightness-90 transition-all;
+	@apply text-leaf-100 bg-astral-500 rounded-lg px-7 py-4 cursor-pointer dark:bg-astral-600 hover:brightness-90 transition-all;
+}
+
+button.secondary,
+a.secondary {
+	@apply bg-transparent text-leaf-100 border border-astral-500 rounded-lg
 }
