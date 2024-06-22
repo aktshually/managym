@@ -48,11 +48,7 @@ const onExerciseButtonClick = (exercise: Exercise) => {
 
 	workout.value.exercises.push({
 		...exercise,
-		sets: [{
-			repetitions: 1,
-			weight: 0,
-			type: "normal",
-		}],
+		sets: [],
 	})
 }
 
@@ -62,6 +58,13 @@ const deleteExercise = (index: number) => () => {
 
 const undoExerciseDeletion = (exercise: WorkoutExercise, index: number) => () => {
 	workout.value.exercises.splice(index, 0, exercise)
+}
+
+const createWorkout = () => {
+	workouts.value.push(workout.value)
+
+	const router = useRouter()
+	router.push("/workouts")
 }
 </script>
 
@@ -108,6 +111,7 @@ const undoExerciseDeletion = (exercise: WorkoutExercise, index: number) => () =>
 				<UButton
 					color="shark"
 					variant="solid"
+					@click="createWorkout()"
 				>
 					Create
 				</UButton>

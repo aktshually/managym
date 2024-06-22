@@ -47,13 +47,3 @@ h2 {
 p {
 	@apply opacity-75 font-medium text-lg dark:opacity-100 dark:text-leaf-100 dark:font-normal;
 }
-
-button.primary,
-a.primary {
-	@apply text-leaf-100 bg-astral-500 rounded-lg px-7 py-4 cursor-pointer dark:bg-astral-600 hover:brightness-90 transition-all;
-}
-
-button.secondary,
-a.secondary {
-	@apply bg-transparent text-leaf-100 border border-astral-500 rounded-lg
-}

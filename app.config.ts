@@ -1,5 +1,8 @@
 export default defineAppConfig({
 	ui: {
+		icons: {
+			dynamic: true,
+		},
 		notification: {
 			background: "bg-brown-200 dark:bg-shark-800",
 			title: "font-bold",

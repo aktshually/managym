@@ -16,22 +16,24 @@ const workouts = useStorage<Workout[]>("workouts", [])
 			</h2>
 		</div>
 		<div
-			v-for="workout in workouts"
 			v-else
-			:key="workout.name"
+			class="flex flex-col gap-4 pb-8"
 		>
-			{{ workout.name }}
+			<WorkoutCard
+				v-for="workout in workouts"
+				:key="workout.name"
+				:name="workout.name"
+				:exercises="workout.exercises"
+			/>
 		</div>
 		<div>
-			<NuxtLink
-				class="!px-6 !py-5 !m-0 primary rounded-full absolute bottom-8 right-8"
+			<UButton
+				icon="ic:round-plus"
+				color="shark"
+				variant="solid"
 				to="/workouts/create"
-			>
-				<Icon
-					name="ic:round-plus"
-					class="w-6 h-6"
-				/>
-			</NuxtLink>
+				class="!text-leaf-100 fixed bottom-5 right-5"
+			/>
 		</div>
 	</main>
 </template>

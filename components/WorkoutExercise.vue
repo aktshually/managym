@@ -41,22 +41,20 @@ type RowExercise = {
 	type: SetType
 }
 
-const setsTableRows = ref<RowExercise[]>([])
-for (let i = 0; i < sets.length; i++) {
-	const { weight, repetitions, type } = sets[i]
-
-	const objectToPush: RowExercise = {
-		id: i,
-		repetitions,
-		type,
-	}
-
-	if (!EQUIPMENT_FOR_BODYWEIGHT_EXERCISES.includes(equipment as string)) {
-		objectToPush.weight = weight
-	}
-
-	setsTableRows.value.push(objectToPush)
+const setsTableRows = ref<RowExercise[]>([{
+	id: 0,
+	repetitions: 1,
+	type: "normal",
+	weight: undefined,
+}])
+if (!EQUIPMENT_FOR_BODYWEIGHT_EXERCISES.includes(equipment as string)) {
+	setsTableRows.value[0].weight = 0
 }
+sets.push({
+	repetitions: setsTableRows.value[0].repetitions,
+	weight: setsTableRows.value[0].weight,
+	type: setsTableRows.value[0].type,
+})
 
 const addSet = () => {
 	const { repetitions, weight, type } = setsTableRows.value[setsTableRows.value.length - 1]
@@ -66,14 +64,21 @@ const addSet = () => {
 		weight,
 		type,
 	})
+	sets.push({
+		repetitions,
+		weight,
+		type,
+	})
 }
 
 const onChangeSetType = (index: number, newType: "normal" | "warmup" | "drop" | "failure") => {
 	setsTableRows.value[index].type = newType
+	sets[index].type = newType
 }
 
 const deleteSet = (index: number) => {
 	setsTableRows.value.splice(index, 1)
+	sets.splice(index, 1)
 	for (let i = 0; i < setsTableRows.value.length; i++) {
 		setsTableRows.value[i].id = i
 	}
@@ -115,6 +120,15 @@ const validateRepetitionsNumber = (reps: number) => {
 	if (reps < 1) return 1
 	else if (reps > 100) return 100
 	return reps
+}
+
+const onRepetitionNumberChange = (index: number) => {
+	setsTableRows.value[index].repetitions = validateRepetitionsNumber(setsTableRows.value[index].repetitions as number)
+	sets[index].repetitions = setsTableRows.value[index].repetitions
+}
+
+const onWeightNumberChange = (index: number) => {
+	sets[index].weight = setsTableRows.value[index].weight
 }
 
 const deletionNotificationActions = ref([
@@ -197,7 +211,7 @@ const deleteExercise = () => {
 					v-model="setsTableRows[row.id].repetitions"
 					type="number"
 					class="minimalist outline-none bg-transparent p-0 m-0 w-12 border-none text-diesel-950 dark:text-brown-100"
-					@change="setsTableRows[row.id].repetitions = validateRepetitionsNumber(setsTableRows[row.id].repetitions)"
+					@change="onRepetitionNumberChange(row.id)"
 				>
 			</template>
 
@@ -206,6 +220,7 @@ const deleteExercise = () => {
 					v-model="setsTableRows[row.id].weight"
 					type="number"
 					class="minimalist outline-none bg-transparent p-0 m-0 w-12 border-none text-diesel-950 dark:text-brown-100"
+					@change="onWeightNumberChange(row.id)"
 				>
 			</template>
 
