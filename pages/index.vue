@@ -10,12 +10,13 @@
 			<p class="text-center w-2/5">
 				Managym is not just a way of organizing your workouts. It's a way of unifying workout management, health care & more.
 			</p>
-			<NuxtLink
+			<UButton
 				to="/workouts"
 				class="primary"
+				color="shark"
 			>
 				Create a workout
-			</NuxtLink>
+			</UButton>
 		</div>
 	</main>
 </template>

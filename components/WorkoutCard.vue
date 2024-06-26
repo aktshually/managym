@@ -5,6 +5,9 @@ const { name, exercises } = defineProps<{
 	name: string
 	exercises: WorkoutExercise[]
 }>()
+
+const data = new Blob([JSON.stringify({ name, exercises })], { type: "application/json" })
+const downloadURL = window.URL.createObjectURL(data)
 </script>
 
 <template>
@@ -26,6 +29,8 @@ const { name, exercises } = defineProps<{
 				color="shark"
 				class="py-2"
 				variant="outline"
+				:to="downloadURL"
+				:download="`${name}.json`"
 			>
 				Export
 			</UButton>
