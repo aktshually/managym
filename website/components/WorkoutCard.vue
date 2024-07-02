@@ -4,6 +4,7 @@ import type { WorkoutExercise } from "~/types/workout"
 const { name, exercises } = defineProps<{
 	name: string
 	exercises: WorkoutExercise[]
+	index: number
 }>()
 
 const data = new Blob([JSON.stringify({ name, exercises })], { type: "application/json" })
@@ -22,6 +23,7 @@ const downloadURL = window.URL.createObjectURL(data)
 			<UButton
 				color="shark"
 				class="py-2"
+				:to="`/workouts/${index}`"
 			>
 				Start
 			</UButton>

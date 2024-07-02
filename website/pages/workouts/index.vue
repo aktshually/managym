@@ -20,10 +20,11 @@ const workouts = useStorage<Workout[]>("workouts", [])
 			class="flex flex-col gap-4 pb-8"
 		>
 			<WorkoutCard
-				v-for="workout in workouts"
+				v-for="(workout, index) in workouts"
 				:key="workout.name"
 				:name="workout.name"
 				:exercises="workout.exercises"
+				:index="index"
 			/>
 		</div>
 		<div>
