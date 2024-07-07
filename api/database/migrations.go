@@ -1,7 +1,7 @@
 package database
 
 import (
-	"siege-api/database/models"
+	"managym-api/database/models"
 
 	"gorm.io/gorm"
 )

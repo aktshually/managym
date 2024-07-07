@@ -1,22 +1,23 @@
 package main
 
 import (
+	"fmt"
+	"managym-api/app/users"
+	"managym-api/database"
+	"managym-api/utils"
 	"os"
-	"siege-api/database"
-	"siege-api/router"
-	"siege-api/utils"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/go-fuego/fuego"
 )
 
 // This API rewrite features user authentication and application management for
-// the Siege hosting service.
+// the Managym app.
 func main() {
-	app := fiber.New()
 	utils.LoadEnv()
+	server := fuego.NewServer(fuego.WithAddr(fmt.Sprint("localhost:", os.Getenv("PORT"))))
 	database.Connect()
 
-	app.Mount("/", router.MountRoutes())
+	users.UsersResources{}.Routes(server)
 
-	app.Listen(os.Getenv("PORT"))
+	server.Run()
 }

@@ -1,8 +1,8 @@
-# Siege Cloud API
+# Managym API
 
 ## 📋 Table of Contents
 
-- [Siege Cloud API](#siege-cloud-api)
+- [Managym API](#siege-cloud-api)
   - [📋 Table of Contents](#-table-of-contents)
   - [📖 Summary](#-summary)
   - [🛠️ Technologies](#️-technologies)
