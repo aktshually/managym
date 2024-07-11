@@ -4,7 +4,7 @@ package models
 // This struct will be used to generate users for the database
 type User struct {
 	Id        string `gorm:"primaryKey"`
-	Email     string `gorm:"<-;size:120;index"`
+	Email     string `gorm:"<-;size:120;unique"`
 	Password  string `gorm:"<-;size:120"`
 	FirstName string `gorm:"size:120"`
 	LastName  string `gorm:"size:120"`

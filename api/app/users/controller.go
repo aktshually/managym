@@ -1,75 +1,54 @@
 package users
 
-import "github.com/go-fuego/fuego"
+import (
+	"managym-api/utils"
+	"managym-api/validation"
+	"strings"
+
+	"github.com/gofiber/fiber/v2"
+)
 
 type UsersResources struct {
 	UsersService UsersService
 }
 
-type Users struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+type User struct {
+	Id        string `json:"id"`
+	Email     string `json:"email"`
+	Password  string `json:"-"`
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
+	CreatedAt int64  `json:"created_at"`
+	UpdatedAt int64  `json:"updated_at"`
+	IsActive  bool   `json:"is_active"`
 }
 
-type UsersCreate struct {
-	Name string `json:"name"`
+type CreateUserRequestBody struct {
+	FirstName string `json:"first_name" validate:"required,alphanum,gte=3"`
+	LastName  string `json:"last_name" validate:"required,alphanum,gte=3"`
+	Email     string `json:"email" validate:"required,email"`
+	Password  string `json:"password" validate:"required"`
 }
 
-type UsersUpdate struct {
-	Name string `json:"name"`
+func (rs UsersResources) MountRoutesInto(app *fiber.App) {
+	usersGroup := app.Group("/users")
+
+	usersGroup.Post("/", rs.createUser)
 }
 
-func (rs UsersResources) Routes(s *fuego.Server) {
-	usersGroup := fuego.Group(s, "/users")
+func (rs UsersResources) createUser(context *fiber.Ctx) error {
+	var body CreateUserRequestBody
+	context.BodyParser(&body)
 
-	fuego.Get(usersGroup, "/", rs.getAllUsers)
-	fuego.Post(usersGroup, "/", rs.postUsers)
-
-	fuego.Get(usersGroup, "/{id}", rs.getUsers)
-	fuego.Put(usersGroup, "/{id}", rs.putUsers)
-	fuego.Delete(usersGroup, "/{id}", rs.deleteUsers)
-}
-
-func (rs UsersResources) getAllUsers(c fuego.ContextNoBody) (string, error) {
-	return "hey", nil
-}
-
-func (rs UsersResources) postUsers(c *fuego.ContextWithBody[UsersCreate]) (Users, error) {
-	body, err := c.Body()
-	if err != nil {
-		return Users{}, err
+	errs := validation.Validate(body)
+	if len(errs) > 0 {
+		return utils.ThrowError(context, fiber.StatusBadRequest, strings.Join(errs, ","))
 	}
 
-	new, err := rs.UsersService.CreateUsers(body)
-	if err != nil {
-		return Users{}, err
+	createdUser, err := rs.UsersService.CreateUser(body)
+	if err.StatusCode != 0 {
+		return utils.ThrowError(context, err.StatusCode, err.Message)
 	}
 
-	return new, nil
-}
-
-func (rs UsersResources) getUsers(c fuego.ContextNoBody) (Users, error) {
-	id := c.PathParam("id")
-
-	return rs.UsersService.GetUsers(id)
-}
-
-func (rs UsersResources) putUsers(c *fuego.ContextWithBody[UsersUpdate]) (Users, error) {
-	id := c.PathParam("id")
-
-	body, err := c.Body()
-	if err != nil {
-		return Users{}, err
-	}
-
-	new, err := rs.UsersService.UpdateUsers(id, body)
-	if err != nil {
-		return Users{}, err
-	}
-
-	return new, nil
-}
-
-func (rs UsersResources) deleteUsers(c *fuego.ContextNoBody) (any, error) {
-	return rs.UsersService.DeleteUsers(c.PathParam("id"))
+	return context.Status(fiber.StatusCreated).JSON(createdUser)
 }

@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"gorm.io/driver/postgres"
+	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
@@ -19,6 +20,17 @@ var DatabaseManager *gorm.DB
 func Connect() {
 	dsn := fmt.Sprintf("user=%s password=%s dbname=%s port=%s host=%s", os.Getenv("POSTGRES_USER"), os.Getenv("POSTGRES_PASSWORD"), os.Getenv("POSTGRES_DB"), os.Getenv("POSTGRES_PORT"), os.Getenv("POSTGRES_HOST"))
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	if err != nil {
+		panic(err)
+	}
+
+	GenerateMigrations(db)
+
+	DatabaseManager = db
+}
+
+func MockConnection() {
+	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}

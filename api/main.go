@@ -1,23 +1,22 @@
 package main
 
 import (
-	"fmt"
 	"managym-api/app/users"
 	"managym-api/database"
 	"managym-api/utils"
 	"os"
 
-	"github.com/go-fuego/fuego"
+	"github.com/gofiber/fiber/v2"
 )
 
 // This API rewrite features user authentication and application management for
 // the Managym app.
 func main() {
+	app := fiber.New()
 	utils.LoadEnv()
-	server := fuego.NewServer(fuego.WithAddr(fmt.Sprint("localhost:", os.Getenv("PORT"))))
 	database.Connect()
 
-	users.UsersResources{}.Routes(server)
+	users.UsersResources{}.MountRoutesInto(app)
 
-	server.Run()
+	app.Listen(":" + os.Getenv("PORT"))
 }
