@@ -16,16 +16,19 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Go to API directory
+      run: cd ./api
+
     - name: Set up Go
       uses: actions/setup-go@v4
       with:
         go-version: '1.22.4'
 
     - name: Install dependencies
-      run: go get ./api
+      run: go get .
 
     - name: Build
-      run: go build -v ./api/...
+      run: go build -v ./...
 
     - name: Test
-      run: go test -v ./api/...
+      run: go test -v ./...
