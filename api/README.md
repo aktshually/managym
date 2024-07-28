@@ -2,7 +2,7 @@
 
 ## 📋 Table of Contents
 
-- [Managym API](#managym-api)
+- [Managym API](#managym)
   - [📋 Table of Contents](#-table-of-contents)
   - [📖 Summary](#-summary)
   - [🛠️ Technologies](#️-technologies)

@@ -1,10 +1,11 @@
 package users
 
 import (
+	"context"
 	"crypto/sha256"
-	"managym-api/database"
-	"managym-api/database/models"
-	"managym-api/utils"
+	"fmt"
+	"managym/database"
+	"managym/utils"
 	"math/rand"
 
 	"github.com/bwmarrin/snowflake"
@@ -33,17 +34,15 @@ func (usersService *UsersService) CreateUser(user CreateUserRequestBody) (User, 
 	userId := node.Generate()
 	encryptedPassword := p.NewPassword(sha256.New, 12, 32, 1500).HashPassword(user.Password)
 
-	createdUser := models.User{
-		Id:        userId.String(),
+	createdUser, err := database.Manager.CreateUser(context.Background(), database.CreateUserParams{
+		ID:        userId.String(),
 		FirstName: user.FirstName,
 		LastName:  user.LastName,
 		Email:     user.Email,
 		Password:  encryptedPassword.CipherText,
-	}
-
-	tx := database.DatabaseManager.Model(&models.User{}).Create(&createdUser)
-
-	if tx.Error != nil {
+	})
+	if err != nil {
+		fmt.Println(err)
 		return User{}, utils.APIError{
 			StatusCode: fiber.StatusForbidden,
 			Message:    "an user with this email address already exists",
@@ -51,12 +50,12 @@ func (usersService *UsersService) CreateUser(user CreateUserRequestBody) (User, 
 	}
 
 	return User{
-		Id:        createdUser.Id,
+		Id:        createdUser.ID,
 		FirstName: createdUser.FirstName,
 		LastName:  createdUser.LastName,
 		Email:     createdUser.Email,
-		CreatedAt: createdUser.CreatedAt,
-		UpdatedAt: createdUser.UpdatedAt,
-		IsActive:  createdUser.IsActive,
+		CreatedAt: createdUser.CreatedAt.Time.Unix(),
+		UpdatedAt: createdUser.UpdatedAt.Time.Unix(),
+		IsActive:  createdUser.IsActive.Bool,
 	}, utils.APIError{}
 }

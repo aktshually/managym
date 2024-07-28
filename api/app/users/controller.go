@@ -1,8 +1,8 @@
 package users
 
 import (
-	"managym-api/utils"
-	"managym-api/validation"
+	"managym/utils"
+	"managym/validation"
 	"strings"
 
 	"github.com/gofiber/fiber/v2"

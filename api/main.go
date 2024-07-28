@@ -1,9 +1,9 @@
 package main
 
 import (
-	"managym-api/app/users"
-	"managym-api/database"
-	"managym-api/utils"
+	"managym/app/users"
+	"managym/database"
+	"managym/utils"
 	"os"
 
 	"github.com/gofiber/fiber/v2"

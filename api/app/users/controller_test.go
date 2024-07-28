@@ -3,14 +3,16 @@ package users
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"io"
-	"managym-api/database"
+	"managym/database"
+	"managym/utils"
 	"net/http/httptest"
 	"os"
 	"testing"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/pashagolub/pgxmock/v4"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -27,7 +29,7 @@ func TestCreateUserSuccess(t *testing.T) {
 	app := fiber.New()
 	UsersResources{}.MountRoutesInto(app)
 
-	database.MockConnection()
+	mock := database.MockConnection()
 
 	mockedUser := CreateUserRequestBody{
 		FirstName: "foo",
@@ -35,6 +37,10 @@ func TestCreateUserSuccess(t *testing.T) {
 		Password:  "12345",
 		Email:     "foo@bar.com",
 	}
+
+	mock.ExpectQuery("INSERT INTO users").
+		WithArgs(utils.AnyString{}, mockedUser.Email, utils.AnyString{}, mockedUser.FirstName, mockedUser.LastName).
+		WillReturnRows(pgxmock.NewRows([]string{"id", "email", "first_name", "last_name", "created_at", "updated_at", "is_active"}).AddRow("", mockedUser.Email, mockedUser.FirstName, mockedUser.LastName, time.Now(), time.Now(), true))
 
 	data, _ := json.Marshal(mockedUser)
 
@@ -99,7 +105,7 @@ func TestCreateUserThatAlreadyExists(t *testing.T) {
 	app := fiber.New()
 	UsersResources{}.MountRoutesInto(app)
 
-	database.MockConnection()
+	mock := database.MockConnection()
 	mockedUser := CreateUserRequestBody{
 		FirstName: "foo",
 		LastName:  "bar",
@@ -109,11 +115,14 @@ func TestCreateUserThatAlreadyExists(t *testing.T) {
 
 	data, _ := json.Marshal(mockedUser)
 
+	mock.ExpectQuery("INSERT INTO users").
+		WithArgs(utils.AnyString{}, mockedUser.Email, utils.AnyString{}, mockedUser.FirstName, mockedUser.LastName).
+		WillReturnRows(pgxmock.NewRows([]string{"id", "email", "first_name", "last_name", "created_at", "updated_at", "is_active"}).AddRow("", mockedUser.Email, mockedUser.FirstName, mockedUser.LastName, time.Now(), time.Now(), true))
+
 	request := httptest.NewRequest(fiber.MethodPost, "/users", bytes.NewReader(data))
 	request.Header.Add("Content-Type", "application/json")
 	r, _ := app.Test(request)
-	rb, _ := io.ReadAll(r.Body)
-	fmt.Println(string(rb))
+	io.ReadAll(r.Body)
 
 	request = httptest.NewRequest(fiber.MethodPost, "/users", bytes.NewReader(data))
 	request.Header.Add("Content-Type", "application/json")
@@ -121,7 +130,6 @@ func TestCreateUserThatAlreadyExists(t *testing.T) {
 
 	responseInBytes, _ := io.ReadAll(response.Body)
 
-	fmt.Println(string(responseInBytes))
 	var expected User
 	json.Unmarshal(responseInBytes, &expected)
 
