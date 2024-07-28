@@ -12,7 +12,7 @@ const workouts = useStorage<Workout[]>("workouts", [])
 			class="flex items-center justify-center h-[85vh]"
 		>
 			<h2 class="w-1/2 text-center opacity-75">
-				You do not have any workouts created on this device. Click on the "+" button to create one
+				You do not have any workouts created. Click on the "+" button to create one
 			</h2>
 		</div>
 		<div
