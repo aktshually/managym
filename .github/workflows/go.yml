@@ -22,10 +22,16 @@ jobs:
         go-version: '1.22.4'
 
     - name: Install dependencies
-      run: go get ./api
+      run: | 
+          cd ./api
+          go get .
 
     - name: Build
-      run: go build -v ./api/...
+      run: |
+        cd ./api
+        go build -v ./...
 
     - name: Test
-      run: go test -v ./api/...
+      run: |
+        cd ./api
+        go test -v ./...
