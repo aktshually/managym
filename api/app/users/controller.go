@@ -24,10 +24,10 @@ type User struct {
 }
 
 type CreateUserRequestBody struct {
-	FirstName string `json:"first_name" validate:"required,alphanum,gte=3"`
-	LastName  string `json:"last_name" validate:"required,alphanum,gte=3"`
-	Email     string `json:"email" validate:"required,email"`
-	Password  string `json:"password" validate:"required"`
+	FirstName string `json:"first_name" validate:"required,gte=3,max=100"`
+	LastName  string `json:"last_name" validate:"max=100"`
+	Email     string `json:"email" validate:"required,email,max=100"`
+	Password  string `json:"password" validate:"max=100"`
 }
 
 func (rs UsersResources) MountRoutesInto(app *fiber.App) {

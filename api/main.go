@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
 // This API rewrite features user authentication and application management for
@@ -15,6 +16,8 @@ func main() {
 	app := fiber.New()
 	utils.LoadEnv()
 	database.Connect()
+
+	app.Use(cors.New())
 
 	users.UsersResources{}.MountRoutesInto(app)
 

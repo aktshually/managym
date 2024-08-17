@@ -15,15 +15,15 @@
     "@nuxt/image": "^1.7.0",
     "@nuxt/ui": "^2.16.0",
     "@pinia/nuxt": "^0.5.1",
-    "@sidebase/nuxt-auth": "^0.8.0",
     "eslint": "^9.4.0",
-    "next-auth": "4.21.1",
     "nuxt": "^3.11.2",
+    "nuxt-auth-utils": "^0.3.2",
     "nuxt-icon": "^0.6.10",
     "nuxt-storage": "^1.2.2",
     "pinia": "^2.1.7",
     "vue": "^3.4.27",
-    "vue-router": "^4.3.2"
+    "vue-router": "^4.3.2",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.19",

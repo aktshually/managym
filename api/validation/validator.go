@@ -19,19 +19,6 @@ func Validate[T any](toValidate T) []string {
 
 	en_translations.RegisterDefaultTranslations(Validator, trans)
 
-	Validator.RegisterTranslation("required", trans, func(ut ut.Translator) error {
-		return ut.Add("required", "{0} must have a value", true)
-	}, func(ut ut.Translator, fe validator.FieldError) string {
-		t, _ := ut.T("required", fe.StructField())
-		return t
-	})
-	Validator.RegisterTranslation("gte", trans, func(ut ut.Translator) error {
-		return ut.Add("gte", "\"{0}\" must be greater than or equal {1}", true)
-	}, func(ut ut.Translator, fe validator.FieldError) string {
-		t, _ := ut.T("gte", fe.StructField(), fe.Value().(string))
-		return t
-	})
-
 	err := Validator.Struct(toValidate)
 	if err != nil {
 		var formattedErrors []string

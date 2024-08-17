@@ -47,5 +47,36 @@ export default defineAppConfig({
 			},
 
 		},
+		input: {
+			base: "border border-astral-500 dark:border-astral-600",
+			color: {
+				shark: "bg-transparent focus:ring-0",
+			},
+			icon: {
+				trailing: {
+					pointer: "pointer-events-auto",
+				},
+			},
+		},
+		progress: {
+			progress: {
+				base: "border border-astral-500 dark:border-astral-600",
+				color: "border border-astral-500 dark:border-astral-600 [&::-webkit-progress-bar]:border [&::-webkit-progress-bar]:border-astral-500 [&::-webkit-progress-bar]:dark:border-astral-600",
+				track: "[&::-webkit-progress-bar]:bg-transparent [&::-webkit-progress-bar]:dark:bg-transparent [&::-webkit-progress-value]:bg-astral-500 [&::-webkit-progress-value]:dark:bg-astral-600",
+				bar: "border border-astral-500 dark:border-astral-600",
+				background: "border border-astral-500 dark:border-astral-600",
+			},
+			steps: {
+				color: "text-bold",
+				size: {
+					lg: "text-base",
+				},
+			},
+		},
+		divider: {
+			border: {
+				base: "border-gray-100 dark:border-gray-500",
+			},
+		},
 	},
 })

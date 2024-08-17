@@ -8,7 +8,7 @@ export default defineNuxtConfig({
 		"nuxt-icon",
 		"@nuxt/image",
 		"@nuxt/ui",
-		"@sidebase/nuxt-auth",
+		"nuxt-auth-utils",
 	],
 	postcss: {
 		plugins: {
@@ -31,24 +31,14 @@ export default defineNuxtConfig({
 		dir: "./assets",
 	},
 	runtimeConfig: {
-		google: {
-			clientId: process.env.NUXT_GOOGLE_CLIENT_ID,
-			clientSecret: process.env.NUXT_GOOGLE_CLIENT_SECRET,
+		oauth: {
+			google: {
+				clientId: process.env.NUXT_GOOGLE_CLIENT_ID,
+				clientSecret: process.env.NUXT_GOOGLE_CLIENT_SECRET,
+			},
 		},
-		auth: {
-			isEnabled: true,
-			disableServerSideAuth: false,
-			baseURL: "http://localhost:3000/api/auth",
-			provider: {
-				type: "authjs",
-				trustHost: false,
-				defaultProvider: "google",
-				addDefaultCallbackUrl: true,
-			},
-			sessionRefresh: {
-				enablePeriodically: true,
-				enableOnWindowFocus: true,
-			},
+		public: {
+			baseURL: process.env.API_BASE_URL,
 		},
 	},
 })

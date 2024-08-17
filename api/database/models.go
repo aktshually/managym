@@ -14,7 +14,7 @@ type User struct {
 	Password  string
 	FirstName string
 	LastName  string
-	CreatedAt pgtype.Timestamptz
-	UpdatedAt pgtype.Timestamptz
+	CreatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp
 	IsActive  pgtype.Bool
 }
